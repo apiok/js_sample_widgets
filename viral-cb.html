@@ -6,9 +6,9 @@
 <body>
 
 <script type="text/javascript">
-    document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('DOMContentLoaded', function () {
         if (parent) {
-            parent.postMessage('hideWidgetIframe');
+            parent.postMessage('hideWidgetIframe', '*');
         }
     });
 </script>
