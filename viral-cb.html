@@ -1,0 +1,18 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Viral OK widgets - Callback</title>
+</head>
+<body>
+
+<script type="text/javascript">
+    document.addEventListener('DOMContentLoaded', function() {
+        if (parent) {
+            alert()
+            parent.window.postMessage('hideWidgetIframe');
+        }
+    });
+</script>
+
+</body>
+</html>

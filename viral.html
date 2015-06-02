@@ -1,0 +1,100 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Viral OK widgets</title>
+    <style>
+        #WidgetOKHolder {
+            display: none;
+            position: absolute;
+            top: 0;
+            left: 0;
+            padding: 5%;
+            width: 90%;
+            max-width: 800px;
+            height: 90%;
+            max-height: 800px;
+        }
+        #WidgetOKHolder iframe {
+            width: 100%;
+            max-width: 800px;
+            height: 100%;
+            max-height: 800px;
+            margin: 0 auto;
+        }
+    </style>
+
+    <script type="text/javascript" src="//api.odnoklassniki.ru/js/fapi5.js" defer="defer"></script>
+    <script src="http://crypto-js.googlecode.com/svn/tags/3.1.2/build/rollups/md5.js"></script>
+    <script type="text/javascript">
+        var WidgetOK = {
+            rParams: {},
+
+            openInvite: function () {
+                WidgetOK.open('WidgetInvite');
+            },
+            openSuggest: function () {
+                WidgetOK.open('WidgetSuggest');
+            },
+            openMediatopicPost: function () {
+                WidgetOK.open('WidgetMediatopicPost', {
+                    feed = {
+                        media: [{type: "text", text: "hello world!"}]
+                    }
+                });
+            },
+            /**
+             * @private
+             */
+            open: function(widget, args) {
+                var p = WidgetOK.rParams;
+                args = args ||  {};
+                var proto = window.location.protocol;
+
+                var host = 'connect.ok.ru';
+                var appId = '1139348224';
+                var returnUrl = proto + '//apiok.github.io/js_sample_widgets/viral-cb.html';
+
+                var sigSource = '';
+                if (args.feed != null) {
+                    sigSource += 'st.attachment=' + args.feed;
+                }
+                sigSource += 'st.return=' + returnUrl + p['session_secret_key'];
+
+                var query = proto + '//' + host + '/dk?st.cmd=' + widget + '&st.app=' + appId;
+                if (args.feed != null) {
+                    query += '&st.attachment=' + encodeURIComponent(args.feed);
+                }
+                query += '&st.signature=' + CryptoJS.MD5(sigSource);
+                query += '&st.return=' + encodeURIComponent(returnUrl);
+                if (p['access_token']) {
+                    query += '&st.access_token=' + p['access_token'];
+                }
+                if (p['session_key']) {
+                    query += '&st.session_key=' + p['session_key'];
+                }
+                var holder = document.getElementById('WidgetOKHolder');
+                holder.innerHTML = '<iframe src="' + query + '"></iframe>';
+                holder.style.display = 'block';
+            }
+        };
+
+        document.addEventListener('DOMContentLoaded', function() {
+            WidgetOK.rParams = FAPI.Util.getRequestParameters();
+        }, false);
+        window.addEventListener('message', function(event) {
+            if (event.data == 'hideWidgetIframe') {
+                document.getElementById('WidgetOKHolder').style.display = 'none';
+            }
+        }, false);
+    </script>
+</head>
+<body>
+
+<div id="WidgetOKHolder"></div>
+
+<input type="button" onclick="WidgetOK.openMediatopicPost()" value="Post a new feed"><br/>
+<input type="button" onclick="WidgetOK.openInvite()" value="Invite (not-playing) friends to app"><br/>
+<input type="button" onclick="WidgetOK.openSuggest()" value="Suggest app to friends (both playing and not)"><br/>
+
+</body>
+</html>
