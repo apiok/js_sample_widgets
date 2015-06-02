@@ -67,7 +67,7 @@
                 query += '&st.attachment=' + encodeURIComponent(args.feed);
             }
             query += '&st.signature=' + CryptoJS.MD5(sigSource);
-            query += '&st.return=' + encodeURIComponent(WidgetOK.returnUrl);
+            query += '&st.return=' + encodeURIComponent(proto + WidgetOK.returnUrl);
             if (p['access_token']) {
                 query += '&st.access_token=' + p['access_token'];
             }
