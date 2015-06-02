@@ -34,6 +34,7 @@
         rParams: {},
 
         openInvite: function () {
+            alert(2);
             WidgetOK.open('WidgetInvite');
         },
         openSuggest: function () {
@@ -50,6 +51,7 @@
          * @private
          */
         open: function (widget, args) {
+            alert(3);
             var p = WidgetOK.rParams;
             args = args || {};
             var proto = window.location.protocol;
@@ -91,6 +93,7 @@
 
 <script type="text/javascript">
     document.addEventListener('DOMContentLoaded', function () {
+        alert(1);
         WidgetOK.rParams = FAPI.Util.getRequestParameters();
 
         window.addEventListener('message', function (event) {
