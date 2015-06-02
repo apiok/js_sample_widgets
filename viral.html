@@ -92,8 +92,11 @@
         WidgetOK.rParams = FAPI.Util.getRequestParameters();
 
         window.addEventListener('message', function (event) {
+            alert(event.data);
             if (event.data == 'hideWidgetIframe') {
-                document.getElementById('WidgetOKHolder').style.display = 'none';
+                var holder = document.getElementById('WidgetOKHolder');
+                holder.innerHTML = '';
+                holder.style.display = 'none';
             }
         }, false);
     }, false);
