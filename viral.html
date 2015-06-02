@@ -34,7 +34,6 @@
         rParams: {},
 
         openInvite: function () {
-            alert(2);
             WidgetOK.open('WidgetInvite');
         },
         openSuggest: function () {
@@ -42,19 +41,16 @@
         },
         openMediatopicPost: function () {
             WidgetOK.open('WidgetMediatopicPost', {
-                    feed = {
-                        media: [{type: "text", text: "hello world!"}]
-                    }
-                    });
+                feed: '{"media": [{"type": "text", "text": "hello world!"}]}'
+            });
         },
         /**
          * @private
          */
         open: function (widget, args) {
-            alert(3);
             var p = WidgetOK.rParams;
             args = args || {};
-            var proto = window.location.protocol;
+            var proto = window.location.protocol == 'file:' ? 'http:' : window.location.protocol;
 
             var host = 'connect.ok.ru';
             var appId = '1139348224';
@@ -87,13 +83,12 @@
 
 <div id="WidgetOKHolder"></div>
 
-<input type="button" onclick="WidgetOK.openMediatopicPost()" value="Post a new feed"><br/>
-<input type="button" onclick="WidgetOK.openInvite()" value="Invite (not-playing) friends to app"><br/>
-<input type="button" onclick="WidgetOK.openSuggest()" value="Suggest app to friends (both playing and not)"><br/>
+<input type="button" onclick="WidgetOK.openMediatopicPost();" value="Post a new feed"/><br/>
+<input type="button" onclick="WidgetOK.openInvite();" value="Invite (not-playing) friends to app"/><br/>
+<input type="button" onclick="WidgetOK.openSuggest();" value="Suggest app to friends (both playing and not)"/><br/>
 
 <script type="text/javascript">
     document.addEventListener('DOMContentLoaded', function () {
-        alert(1);
         WidgetOK.rParams = FAPI.Util.getRequestParameters();
 
         window.addEventListener('message', function (event) {
