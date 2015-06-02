@@ -14,6 +14,7 @@
             height: 90%;
             max-height: 800px;
         }
+
         #WidgetOKHolder iframe {
             width: 100%;
             max-width: 800px;
@@ -23,63 +24,64 @@
         }
     </style>
 
-    <script type="text/javascript" src="//api.odnoklassniki.ru/js/fapi5.js" defer="defer"></script>
-    <script src="http://crypto-js.googlecode.com/svn/tags/3.1.2/build/rollups/md5.js"></script>
-    <script type="text/javascript">
-        WidgetOK = {
-            rParams: {},
+</head>
+<body>
 
-            openInvite: function () {
-                WidgetOK.open('WidgetInvite');
-            },
-            openSuggest: function () {
-                WidgetOK.open('WidgetSuggest');
-            },
-            openMediatopicPost: function () {
-                WidgetOK.open('WidgetMediatopicPost', {
+<script type="text/javascript" src="//api.odnoklassniki.ru/js/fapi5.js" defer="defer"></script>
+<script src="http://crypto-js.googlecode.com/svn/tags/3.1.2/build/rollups/md5.js"></script>
+<script type="text/javascript">
+    WidgetOK = {
+        rParams: {},
+
+        openInvite: function () {
+            WidgetOK.open('WidgetInvite');
+        },
+        openSuggest: function () {
+            WidgetOK.open('WidgetSuggest');
+        },
+        openMediatopicPost: function () {
+            WidgetOK.open('WidgetMediatopicPost', {
                     feed = {
                         media: [{type: "text", text: "hello world!"}]
                     }
-                });
-            },
-            /**
-             * @private
-             */
-            open: function(widget, args) {
-                var p = WidgetOK.rParams;
-                args = args ||  {};
-                var proto = window.location.protocol;
+                    });
+        },
+        /**
+         * @private
+         */
+        open: function (widget, args) {
+            var p = WidgetOK.rParams;
+            args = args || {};
+            var proto = window.location.protocol;
 
-                var host = 'connect.ok.ru';
-                var appId = '1139348224';
-                var returnUrl = proto + '//apiok.github.io/js_sample_widgets/viral-cb.html';
+            var host = 'connect.ok.ru';
+            var appId = '1139348224';
+            var returnUrl = proto + '//apiok.github.io/js_sample_widgets/viral-cb.html';
 
-                var sigSource = '';
-                if (args.feed != null) {
-                    sigSource += 'st.attachment=' + args.feed;
-                }
-                sigSource += 'st.return=' + returnUrl + p['session_secret_key'];
-
-                var query = proto + '//' + host + '/dk?st.cmd=' + widget + '&st.app=' + appId;
-                if (args.feed != null) {
-                    query += '&st.attachment=' + encodeURIComponent(args.feed);
-                }
-                query += '&st.signature=' + CryptoJS.MD5(sigSource);
-                query += '&st.return=' + encodeURIComponent(returnUrl);
-                if (p['access_token']) {
-                    query += '&st.access_token=' + p['access_token'];
-                }
-                if (p['session_key']) {
-                    query += '&st.session_key=' + p['session_key'];
-                }
-                var holder = document.getElementById('WidgetOKHolder');
-                holder.innerHTML = '<iframe src="' + query + '"></iframe>';
-                holder.style.display = 'block';
+            var sigSource = '';
+            if (args.feed != null) {
+                sigSource += 'st.attachment=' + args.feed;
             }
-        };
-    </script>
-</head>
-<body>
+            sigSource += 'st.return=' + returnUrl + p['session_secret_key'];
+
+            var query = proto + '//' + host + '/dk?st.cmd=' + widget + '&st.app=' + appId;
+            if (args.feed != null) {
+                query += '&st.attachment=' + encodeURIComponent(args.feed);
+            }
+            query += '&st.signature=' + CryptoJS.MD5(sigSource);
+            query += '&st.return=' + encodeURIComponent(returnUrl);
+            if (p['access_token']) {
+                query += '&st.access_token=' + p['access_token'];
+            }
+            if (p['session_key']) {
+                query += '&st.session_key=' + p['session_key'];
+            }
+            var holder = document.getElementById('WidgetOKHolder');
+            holder.innerHTML = '<iframe src="' + query + '"></iframe>';
+            holder.style.display = 'block';
+        }
+    };
+</script>
 
 <div id="WidgetOKHolder"></div>
 
