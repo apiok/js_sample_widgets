@@ -10,12 +10,11 @@
             left: 0;
             padding: 5%;
             width: 90%;
-            max-width: 800px;
             height: 90%;
-            max-height: 800px;
         }
 
         #WidgetOKHolder iframe {
+            display: block;
             width: 100%;
             max-width: 800px;
             height: 100%;
@@ -32,42 +31,43 @@
 <script type="text/javascript">
     WidgetOK = {
         rParams: {},
+        /* --- BEGIN your config --- */
+        appId: '1139348224',
+        returnUrl: '//apiok.github.io/js_sample_widgets/viral-cb.html',
+        /* --- END your config --- */
 
+        /** @public */
         openInvite: function () {
             WidgetOK.open('WidgetInvite');
         },
+        /** @public */
         openSuggest: function () {
             WidgetOK.open('WidgetSuggest');
         },
+        /** @public */
         openMediatopicPost: function () {
             WidgetOK.open('WidgetMediatopicPost', {
                 feed: '{"media": [{"type": "text", "text": "hello world!"}]}'
             });
         },
-        /**
-         * @private
-         */
+        /** @private */
         open: function (widget, args) {
             var p = WidgetOK.rParams;
             args = args || {};
             var proto = window.location.protocol == 'file:' ? 'http:' : window.location.protocol;
 
-            var host = 'connect.ok.ru';
-            var appId = '1139348224';
-            var returnUrl = proto + '//apiok.github.io/js_sample_widgets/viral-cb.html';
-
             var sigSource = '';
             if (args.feed != null) {
                 sigSource += 'st.attachment=' + args.feed;
             }
-            sigSource += 'st.return=' + returnUrl + p['session_secret_key'];
+            sigSource += 'st.return=' + proto + WidgetOK.returnUrl + p['session_secret_key'];
 
-            var query = proto + '//' + host + '/dk?st.cmd=' + widget + '&st.app=' + appId;
+            var query = proto + '//connect.ok.ru/dk?st.cmd=' + widget + '&st.app=' + WidgetOK.appId;
             if (args.feed != null) {
                 query += '&st.attachment=' + encodeURIComponent(args.feed);
             }
             query += '&st.signature=' + CryptoJS.MD5(sigSource);
-            query += '&st.return=' + encodeURIComponent(returnUrl);
+            query += '&st.return=' + encodeURIComponent(WidgetOK.returnUrl);
             if (p['access_token']) {
                 query += '&st.access_token=' + p['access_token'];
             }
@@ -83,9 +83,20 @@
 
 <div id="WidgetOKHolder"></div>
 
+<p>
 <input type="button" onclick="WidgetOK.openMediatopicPost();" value="Post a new feed"/><br/>
+    Posts a simple "hello world!" mediatopic
+</p>
+
+<p>
 <input type="button" onclick="WidgetOK.openInvite();" value="Invite (not-playing) friends to app"/><br/>
+    Selects friends for invitation
+</p>
+
+<p>
 <input type="button" onclick="WidgetOK.openSuggest();" value="Suggest app to friends (both playing and not)"/><br/>
+    Selects friends for suggestion
+</p>
 
 <script type="text/javascript">
     document.addEventListener('DOMContentLoaded', function () {
