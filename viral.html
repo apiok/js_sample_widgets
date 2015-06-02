@@ -92,7 +92,6 @@
         WidgetOK.rParams = FAPI.Util.getRequestParameters();
 
         window.addEventListener('message', function (event) {
-            alert(event.data);
             if (event.data == 'hideWidgetIframe') {
                 var holder = document.getElementById('WidgetOKHolder');
                 holder.innerHTML = '';
