@@ -37,6 +37,7 @@
 <script type="text/javascript">
     WidgetOK = {
         rParams: {},
+        hParams: {},
         /* --- BEGIN your config --- */
         appId: '1139348224',
         returnUrl: '//apiok.github.io/js_sample_widgets/viral-cb.html',
@@ -59,6 +60,8 @@
         /** @private */
         open: function (widget, args) {
             var p = WidgetOK.rParams;
+            var p1 = WidgetOK.hParams;
+            var sessSecKey = p['session_secret_key'] || p1['session_secret_key'];
             args = args || {};
             var proto = window.location.protocol == 'file:' ? 'http:' : window.location.protocol;
 
@@ -66,7 +69,7 @@
             if (args.feed != null) {
                 sigSource += 'st.attachment=' + args.feed;
             }
-            sigSource += 'st.return=' + proto + WidgetOK.returnUrl + p['session_secret_key'];
+            sigSource += 'st.return=' + proto + WidgetOK.returnUrl + sessSecKey;
 
             var query = proto + '//connect.ok.ru/dk?st.cmd=' + widget + '&st.app=' + WidgetOK.appId;
             if (args.feed != null) {
@@ -74,8 +77,8 @@
             }
             query += '&st.signature=' + CryptoJS.MD5(sigSource);
             query += '&st.return=' + encodeURIComponent(proto + WidgetOK.returnUrl);
-            if (p['access_token']) {
-                query += '&st.access_token=' + p['access_token'];
+            if (p1['access_token']) {
+                query += '&st.access_token=' + p1['access_token'];
             }
             if (p['session_key']) {
                 query += '&st.session_key=' + p['session_key'];
@@ -111,6 +114,16 @@
 <script type="text/javascript">
     document.addEventListener('DOMContentLoaded', function () {
         WidgetOK.rParams = FAPI.Util.getRequestParameters();
+        WidgetOK.hParams = FAPI.Util.getRequestParameters(window.location.hash);
+
+        FAPI.init({'app_id': 1139348224, 'app_key': 'CBAEBKOEEBABABABA'},
+                function () {
+                    alert('SUCCESS');
+                },
+                function (err) {
+                    alert('ERROR:' + err);
+                }
+        )
 
         window.addEventListener('message', function (event) {
             if (event.data == 'hideWidgetIframe') {
