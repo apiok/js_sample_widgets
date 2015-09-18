@@ -87,7 +87,7 @@
             var html = [];
             html.push('<a style="float:right;display:block;" onclick="document.getElementById(',
                     "'WidgetOKHolder').style.display = 'none';", '">[close]</a>');
-            html.push('<iframe src="', query, '"></iframe>')
+            html.push('<iframe src="', query, '"></iframe>');
             holder.innerHTML = html.join('');
             holder.style.display = 'block';
         }
@@ -118,12 +118,12 @@
 
         FAPI.init({'app_id': 1139348224, 'app_key': 'CBAEBKOEEBABABABA'},
                 function () {
-                    alert('SUCCESS');
+//                    alert('SUCCESS');
                 },
                 function (err) {
                     alert('ERROR:' + err);
                 }
-        )
+        );
 
         window.addEventListener('message', function (event) {
             if (event.data == 'hideWidgetIframe') {
