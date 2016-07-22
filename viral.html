@@ -33,7 +33,7 @@
 <body>
 
 <script type="text/javascript" src="//api.odnoklassniki.ru/js/fapi5.js" defer="defer"></script>
-<script src="https://crypto-js.googlecode.com/svn/tags/3.1.2/build/rollups/md5.js"></script>
+<script src="https://odnoklassniki.github.io/ok-js-sdk/oksdk.js"></script>
 <script type="text/javascript">
     WidgetOK = {
         rParams: {},
@@ -75,7 +75,7 @@
             if (args.feed != null) {
                 query += '&st.attachment=' + encodeURIComponent(args.feed);
             }
-            query += '&st.signature=' + CryptoJS.MD5(sigSource);
+            query += '&st.signature=' + OKSDK.Util.md5(sigSource);
             query += '&st.return=' + encodeURIComponent(proto + WidgetOK.returnUrl);
             if (p1['access_token']) {
                 query += '&st.access_token=' + p1['access_token'];
